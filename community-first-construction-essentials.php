@@ -79,8 +79,8 @@ add_action( 'plugins_loaded', function() {
 	if ( file_exists( $maybe_library ) ) {
 		require_once $maybe_library;
 
-		$cfce_repo_url = 'https://github.com/YOUR_ORG/YOUR_REPO/'; // TODO: set your repo URL
-		$update_checker = Puc_v4_Factory::buildUpdateChecker(
+		$cfce_repo_url = 'https://github.com/johncrislasta/community-first-construction-essentials'; 
+		$update_checker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
 			$cfce_repo_url,
 			__FILE__,
 			'community-first-construction-essentials'
