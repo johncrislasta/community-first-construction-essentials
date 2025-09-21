@@ -1,0 +1,24 @@
+# Node and build artifacts
+node_modules/
+.npm/
+/dist/
+/build/
+
+# Composer
+/vendor/
+composer.lock
+
+# OS/IDE
+.DS_Store
+Thumbs.db
+*.code-workspace
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log
+
+# Misc
+*.zip
