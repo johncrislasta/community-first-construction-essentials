@@ -10,39 +10,18 @@ Custom Gutenberg blocks and essential functions for the Community First Construc
 - Place plugin in `wp-content/plugins/community-first-construction-essentials/`
 - Activate from WP Admin > Plugins
 
-## Automatic Updates (without Appsero)
-This plugin uses the [Plugin Update Checker (PUC)](https://github.com/YahnisElsts/plugin-update-checker) library to fetch updates directly from a Git repository (e.g., GitHub).
+## Automatic Updates
+This plugin already includes the Plugin Update Checker (PUC) library and is configured in `community-first-construction-essentials.php` to fetch updates from the repository:
+- File: `wp-content/plugins/community-first-construction-essentials/community-first-construction-essentials.php`
+- Configured repo URL: `https://github.com/johncrislasta/community-first-construction-essentials`
+- Branch: `main`
+- For private repos, you can optionally set a Personal Access Token via `$update_checker->setAuthentication( 'YOUR_GITHUB_TOKEN' );` (classic token with repo scope). Do NOT commit your token.
 
-### 1) Add the PUC library
-Option A: Manual
-- Download the library from https://github.com/YahnisElsts/plugin-update-checker
-- Place it into: `wp-content/plugins/community-first-construction-essentials/plugin-update-checker/`
-- Ensure the file exists: `plugin-update-checker/plugin-update-checker.php`
-
-Option B: Composer (if you use Composer)
-```bash
-composer require yahnis-elsts/plugin-update-checker
-```
-Then require Composer's autoload or adjust the path accordingly.
-
-Option C: Git Submodule
-```bash
-git submodule add https://github.com/YahnisElsts/plugin-update-checker.git plugin-update-checker
-```
-
-### 2) Configure repository URL
-Edit `community-first-construction-essentials.php` and set your repo URL:
-```php
-$cfce_repo_url = 'https://github.com/YOUR_ORG/YOUR_REPO/';
-$update_checker->setBranch( 'main' ); // Change if your default branch differs
-```
-- For private repos, uncomment `setAuthentication('YOUR_GITHUB_TOKEN')`. Do NOT commit your token.
-
-### 3) Release workflow
-- Bump the Version header in `community-first-construction-essentials.php` (e.g., 1.0.1).
-- Commit and push.
-- Create a GitHub release or tag that matches your version (e.g., `v1.0.1` or `1.0.1`).
-- Go to WP Admin > Dashboard > Updates and click "Check Again". The update should appear.
+### Release workflow
+- Bump the `Version` header and the `CFCE_VERSION` constant in `community-first-construction-essentials.php` (e.g., 1.0.2.4).
+- Commit and push your changes to the configured branch.
+- Create a GitHub release or tag that matches your version (e.g., `v1.0.2.4` or `1.0.2.4`).
+- In WordPress Admin, go to Dashboard > Updates and click "Check Again". The update should appear for this plugin.
 
 Notes:
 - Ensure the plugin folder name matches the slug `community-first-construction-essentials`.
