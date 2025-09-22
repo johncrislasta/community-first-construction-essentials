@@ -11,12 +11,14 @@ body {
 }
 
 /* Customizer Fixes */
+
 .site-logo-div img {
 	max-height: 90px;
 	width: auto;
 }
 
 /* Utility classes */
+
 .has-text-shadow {
 	text-shadow: 2px 1px 6px black;
 }
@@ -26,6 +28,16 @@ body {
 }
 
 /* Spacing */
+
 .has-padding-block-4 {
 	padding-block: 4rem;
+}
+
+.has-padding-top-4 {
+	padding-top: 4rem;
+}
+
+/* Typography */
+h2 {
+    text-transform: uppercase;
 }
