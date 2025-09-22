@@ -21,7 +21,7 @@ class Community_First_Construction_Essentials {
         add_action( 'init', [ $this, 'load_textdomain' ] );
 
         // Frontend assets placeholder.
-        add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_public_assets' ] );
+        add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_public_assets' ], 100000 );
 
         // Admin assets placeholder.
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
