@@ -28,6 +28,9 @@ class Community_First_Construction_Essentials {
 
         // Register Gutenberg blocks bootstrap (to be implemented).
         add_action( 'init', [ $this, 'register_blocks' ] );
+
+        // Load styles in the block editor (Gutenberg) as well.
+        add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
     }
 
     /**
@@ -62,5 +65,15 @@ class Community_First_Construction_Essentials {
     public function register_blocks() {
         // Placeholder: We'll add block.json registration and build pipeline later.
         // Example: register_block_type( CFCE_PLUGIN_DIR . 'build/your-block' );
+    }
+
+    /**
+     * Enqueue styles for the Gutenberg block editor so the editor matches frontend styles.
+     */
+    public function enqueue_block_editor_assets() {
+        // Reuse the public stylesheet in the editor; depend on core editor styles to ensure proper load order.
+        wp_enqueue_style( 'cfce-editor', CFCE_PLUGIN_URL . 'public/css/public.css', [ 'wp-edit-blocks' ], CFCE_VERSION );
+        // If you need editor-only tweaks, create and enqueue an editor.css here instead.
+        // Example: wp_enqueue_style( 'cfce-editor-only', CFCE_PLUGIN_URL . 'public/css/editor.css', [ 'cfce-editor' ], CFCE_VERSION );
     }
 }
