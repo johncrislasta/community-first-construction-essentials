@@ -31,6 +31,9 @@ class Community_First_Construction_Essentials {
 
         // Load styles in the block editor (Gutenberg) as well.
         add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ], 100000 );
+
+        // Register Gutenberg editor color palette (override theme palette if needed).
+        add_action( 'after_setup_theme', [ $this, 'register_editor_palette' ], 11 );
     }
 
     /**
@@ -75,5 +78,42 @@ class Community_First_Construction_Essentials {
         wp_enqueue_style( 'cfce-editor', CFCE_PLUGIN_URL . 'public/css/public.css', [ 'wp-edit-blocks' ], CFCE_VERSION );
         // Editor-only tweaks (does not load on frontend)
         wp_enqueue_style( 'cfce-editor-only', CFCE_PLUGIN_URL . 'public/css/editor.css', [ 'cfce-editor' ], CFCE_VERSION );
+    }
+
+    /**
+     * Register a custom color palette for the block editor to match plugin/brand colors.
+     */
+    public function register_editor_palette() {
+        // Works for classic themes without theme.json. Runs after the theme so we can override.
+        add_theme_support( 'editor-color-palette', [
+            [
+                'name'  => __( 'Primary', 'community-first-construction-essentials' ),
+                'slug'  => 'primary',
+                'color' => '#F6912B',
+            ],
+            [
+                'name'  => __( 'Secondary', 'community-first-construction-essentials' ),
+                'slug'  => 'secondary',
+                'color' => '#2660A4',
+            ],
+            [
+                'name'  => __( 'Black', 'community-first-construction-essentials' ),
+                'slug'  => 'black',
+                'color' => '#221F1F',
+            ],
+            [
+                'name'  => __( 'White', 'community-first-construction-essentials' ),
+                'slug'  => 'white',
+                'color' => '#F7FFF7',
+            ],
+            [
+                'name'  => __( 'Accent', 'community-first-construction-essentials' ),
+                'slug'  => 'accent',
+                'color' => '#CE6A85',
+            ],
+        ] );
+
+        // Optional: lock the palette so users can't pick arbitrary colors in the editor.
+        // add_theme_support( 'disable-custom-colors' );
     }
 }
