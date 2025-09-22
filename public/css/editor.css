@@ -3,7 +3,7 @@ html :where(.wp-block) {
   max-width: unset;
 }
 
-.wp-block-post-content * {
+.wp-block-post-content .wp-block {
     color: var(--color-black);
 }
 
