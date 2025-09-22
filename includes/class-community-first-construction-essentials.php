@@ -73,7 +73,7 @@ class Community_First_Construction_Essentials {
     public function enqueue_block_editor_assets() {
         // Reuse the public stylesheet in the editor; depend on core editor styles to ensure proper load order.
         wp_enqueue_style( 'cfce-editor', CFCE_PLUGIN_URL . 'public/css/public.css', [ 'wp-edit-blocks' ], CFCE_VERSION );
-        // If you need editor-only tweaks, create and enqueue an editor.css here instead.
-        // Example: wp_enqueue_style( 'cfce-editor-only', CFCE_PLUGIN_URL . 'public/css/editor.css', [ 'cfce-editor' ], CFCE_VERSION );
+        // Editor-only tweaks (does not load on frontend)
+        wp_enqueue_style( 'cfce-editor-only', CFCE_PLUGIN_URL . 'public/css/editor.css', [ 'cfce-editor' ], CFCE_VERSION );
     }
 }

@@ -1,0 +1,4 @@
+/* Editor-only width normalization */
+html :where(.wp-block) {
+  max-width: unset;
+}
