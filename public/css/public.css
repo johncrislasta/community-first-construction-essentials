@@ -19,34 +19,34 @@ body {
 
 /* Colors */
 .has-primary-background-color {
-	background-color: var(--color-primary);
+	background-color: var(--color-primary) !important;
 }
 .has-primary-color {
-	color: var(--color-primary);
+	color: var(--color-primary) !important;
 }
 .has-secondary-background-color {
-	background-color: var(--color-secondary);
+	background-color: var(--color-secondary) !important;
 }
 .has-secondary-color {
-	color: var(--color-secondary);
+	color: var(--color-secondary) !important;
 }
 .has-accent-background-color {
-	background-color: var(--color-accent);
+	background-color: var(--color-accent) !important;
 }
 .has-accent-color {
-	color: var(--color-accent);
+	color: var(--color-accent) !important;
 }
 .has-black-background-color {
-	background-color: var(--color-black);
+	background-color: var(--color-black) !important;
 }
 .has-black-color {
-	color: var(--color-black);
+	color: var(--color-black) !important;
 }
 .has-white-background-color {
-	background-color: var(--color-white);
+	background-color: var(--color-white) !important;
 }
 .has-white-color {
-	color: var(--color-white);
+	color: var(--color-white) !important;
 }
 
 /* Utility classes */
