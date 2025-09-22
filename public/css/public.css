@@ -38,7 +38,7 @@ body {
 }
 
 /* Typography */
-h2 {
+h2.wp-block-heading {
     text-transform: uppercase;
     font-weight: 800;
     font-size: 40px;
