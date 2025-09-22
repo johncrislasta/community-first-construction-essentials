@@ -34,6 +34,9 @@ class Community_First_Construction_Essentials {
 
         // Register Gutenberg editor color palette (override theme palette if needed).
         add_action( 'after_setup_theme', [ $this, 'register_editor_palette' ], 11 );
+
+        // Register ACF blocks when ACF initializes.
+        add_action( 'acf/init', [ $this, 'register_acf_blocks' ] );
     }
 
     /**
@@ -115,5 +118,56 @@ class Community_First_Construction_Essentials {
 
         // Optional: lock the palette so users can't pick arbitrary colors in the editor.
         // add_theme_support( 'disable-custom-colors' );
+    }
+
+    /**
+     * Register ACF-based blocks.
+     */
+    public function register_acf_blocks() {
+        if ( ! function_exists( 'acf_register_block_type' ) ) {
+            return;
+        }
+
+        // Project Details block
+        acf_register_block_type( [
+            'name'            => 'project-details',
+            'title'           => __( 'Project Details', 'community-first-construction-essentials' ),
+            'description'     => __( 'Displays fields from the Project CPT.', 'community-first-construction-essentials' ),
+            // Use a render callback so we can include a template from inside this plugin.
+            'render_callback' => [ $this, 'render_project_details_block' ],
+            'category'        => 'formatting',
+            'icon'            => 'admin-home',
+            'keywords'        => [ 'project', 'acf', 'details' ],
+            'supports'        => [
+                'align' => true,
+            ],
+        ] );
+    }
+
+    /**
+     * Render callback for the Project Details block.
+     * Looks for a template at cfc/blocks/project-details.php inside this plugin.
+     * If not found, outputs a helpful notice for admins.
+     *
+     * @param array      $block      Block settings and attributes.
+     * @param string     $content    Block inner HTML (empty).
+     * @param bool       $is_preview Whether or not the block is being rendered for editing preview.
+     * @param int|string $post_id    The post ID the block is rendering content against.
+     * @return void
+     */
+    public function render_project_details_block( $block, $content = '', $is_preview = false, $post_id = 0 ) {
+        $template = rtrim( CFCE_PLUGIN_DIR, '/' ) . '/blocks/project-details.php';
+
+        if ( file_exists( $template ) ) {
+            include $template;
+            return;
+        }
+
+        if ( current_user_can( 'edit_posts' ) ) {
+            echo '<div class="notice notice-warning" style="padding:12px;border:1px solid #f0b849;background:#fffbe5;">';
+            echo '<strong>Project Details block:</strong> Template not found.<br/>';
+            echo 'Create: <code>' . esc_html( str_replace( ABSPATH, '', $template ) ) . '</code>.';
+            echo '</div>';
+        }
     }
 }
