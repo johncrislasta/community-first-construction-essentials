@@ -3,6 +3,10 @@ html :where(.wp-block) {
   max-width: unset;
 }
 
+.wp-block-post-content * {
+    color: var(--color-black);
+}
+
 /* From bootstrap */
 .container {
   position: relative;
