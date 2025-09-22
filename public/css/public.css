@@ -1,9 +1,20 @@
+:root {
+  --color-primary: #F6912B;
+  --color-secondary: #2660A4;
+  --color-black: #221F1F;
+  --color-white: #F7FFF7;
+  --color-accent: #CE6A85;
+}
+
+body {
+  color: var(--color-black);
+}
+
 /* Customizer Fixes */
 .site-logo-div img {
 	max-height: 90px;
 	width: auto;
 }
-
 /* Utility classes */
 .has-text-shadow {
 	text-shadow: 2px 1px 6px black;
