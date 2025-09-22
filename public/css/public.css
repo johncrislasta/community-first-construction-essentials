@@ -69,6 +69,11 @@ body {
 	padding-top: 4rem;
 }
 
+.has-padding-top-1 {
+	padding-top: 1rem;
+}
+
+
 /* Typography */
 h2.wp-block-heading {
     text-transform: uppercase;
