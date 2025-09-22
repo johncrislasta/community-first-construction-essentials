@@ -40,4 +40,7 @@ body {
 /* Typography */
 h2 {
     text-transform: uppercase;
+    font-weight: 800;
+    font-size: 40px;
+    letter-spacing: 3.5px;
 }
