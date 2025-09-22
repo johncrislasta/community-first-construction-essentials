@@ -30,7 +30,7 @@ class Community_First_Construction_Essentials {
         add_action( 'init', [ $this, 'register_blocks' ] );
 
         // Load styles in the block editor (Gutenberg) as well.
-        add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
+        add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ], 100000 );
     }
 
     /**
