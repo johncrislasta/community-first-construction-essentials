@@ -43,8 +43,7 @@ class Community_First_Construction_Essentials {
      * Enqueue public-facing assets.
      */
     public function enqueue_public_assets() {
-        // Example placeholder. Add actual assets when needed.
-        // wp_enqueue_style( 'cfce-public', CFCE_PLUGIN_URL . 'public/css/public.css', [], CFCE_VERSION );
+        wp_enqueue_style( 'cfce-public', CFCE_PLUGIN_URL . 'public/css/public.css', [], CFCE_VERSION );
         // wp_enqueue_script( 'cfce-public', CFCE_PLUGIN_URL . 'public/js/public.js', [ 'wp-element' ], CFCE_VERSION, true );
     }
 

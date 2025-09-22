@@ -1,0 +1,14 @@
+/* Customizer Fixes */
+.site-logo-div img {
+	max-height: 90px;
+	width: auto;
+}
+
+/* Utility classes */
+.has-text-shadow {
+	text-shadow: 2px 1px 6px black;
+}
+
+.has-letter-spacing-4 {
+	letter-spacing: 4px;
+}
