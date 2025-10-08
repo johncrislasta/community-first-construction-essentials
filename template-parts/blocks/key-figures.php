@@ -50,6 +50,7 @@ $value_created = get_field('value_created');
          </div>
        <?php endforeach; ?>
 
+    </div>
     <div class="stats" style="flex:1 1 35%;">
       <h3 style="text-align:center; margin-bottom:1rem;">CFC Progress YTD</h3>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; text-align:center;">
