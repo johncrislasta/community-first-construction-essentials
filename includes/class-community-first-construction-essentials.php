@@ -179,7 +179,7 @@ add_action('acf/init', function() {
             'name'              => 'key-figures',
             'title'             => __('Key Figures'),
             'description'       => __('Displays Key Figures chart and stats.'),
-            'render_template'   => 'template-parts/blocks/key-figures.php',
+            'render_template'   => rtrim( CFCE_PLUGIN_DIR, '/' ) . '/template-parts/blocks/key-figures.php',
             'category'          => 'widgets',
             'icon'              => 'chart-bar',
             'keywords'          => array( 'figures', 'chart', 'progress' ),
