@@ -15,7 +15,13 @@ $value_created = get_field('value_created');
     <div class="chart" style="flex:1 1 60%;">
       <p><strong>Legend:</strong> <span style="color:#f90;">● <?= $year1; ?></span> <span style="color:#fbc87a;">● <?= $year2; ?></span></p>
       <?php
-      
+
+      $bars = [
+	      'Homes Sourced' => $homes_sourced,
+	      'Home Renos' => $home_renos,
+	      'Home Sets' => $home_sets,
+      ];
+
       // Find maximum value across all bars/years for proportional scaling
       $max = 0;
       foreach ($bars as $vals) {
