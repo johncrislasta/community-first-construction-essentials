@@ -39,13 +39,13 @@ $value_created = get_field('value_created');
     <div class="stats" style="flex:1 1 35%;">
       <h3 style="text-align:center; margin-bottom:1rem;">CFC Progress YTD</h3>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; text-align:center;">
+        <h4><?= $year1; ?></h4>
+        <h4><?= $year2; ?></h4>
         <div style="background:#f90; padding:1rem;">
-          <h4><?= $year1; ?></h4>
           <p>Completed Projects</p>
           <h2><?= $completed_projects['y1']; ?></h2>
         </div>
         <div style="background:#fbc87a; padding:1rem;">
-          <h4><?= $year2; ?></h4>
           <p>Completed Projects</p>
           <h2><?= $completed_projects['y2']; ?></h2>
         </div>
