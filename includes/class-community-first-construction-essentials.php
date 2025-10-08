@@ -171,3 +171,20 @@ class Community_First_Construction_Essentials {
         }
     }
 }
+
+
+add_action('acf/init', function() {
+    if( function_exists('acf_register_block_type') ) {
+        acf_register_block_type(array(
+            'name'              => 'key-figures',
+            'title'             => __('Key Figures'),
+            'description'       => __('Displays Key Figures chart and stats.'),
+            'render_template'   => 'template-parts/blocks/key-figures.php',
+            'category'          => 'widgets',
+            'icon'              => 'chart-bar',
+            'keywords'          => array( 'figures', 'chart', 'progress' ),
+            'mode'              => 'edit',
+            'supports'          => array('align' => true),
+        ));
+    }
+});
