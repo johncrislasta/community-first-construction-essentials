@@ -41,21 +41,21 @@ $value_created = get_field('value_created');
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; text-align:center;">
         <h4><?= $year1; ?></h4>
         <h4><?= $year2; ?></h4>
-        <div style="background:#f90; padding:1rem;">
+        <div style="background:#f90;color:#000;">
           <p>Completed Projects</p>
-          <h2><?= $completed_projects['y1']; ?></h2>
+          <h2 style="font-weight:bold;"><?= $completed_projects['y1']; ?></h2>
         </div>
-        <div style="background:#fbc87a; padding:1rem;">
+        <div style="background:#fbc87a;color:#000;">
           <p>Completed Projects</p>
-          <h2><?= $completed_projects['y2']; ?></h2>
+          <h2 style="font-weight:bold;"><?= $completed_projects['y2']; ?></h2>
         </div>
-        <div style="background:#f90; padding:1rem;">
+        <div style="background:#f90;color:#000;">
           <p>Value Created</p>
-          <h2><?= $value_created['y1']; ?></h2>
+          <h2 style="font-weight:bold;"><?= $value_created['y1']; ?></h2>
         </div>
-        <div style="background:#fbc87a; padding:1rem;">
+        <div style="background:#fbc87a;color:#000;">
           <p>Value Created</p>
-          <h2><?= $value_created['y2']; ?></h2>
+          <h2 style="font-weight:bold;"><?= $value_created['y2']; ?></h2>
         </div>
       </div>
     </div>
