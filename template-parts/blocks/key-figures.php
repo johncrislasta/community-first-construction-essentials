@@ -66,11 +66,11 @@ $value_created = get_field('value_created');
         </div>
         <div style="background:#f90;color:#000;">
           <p>Value Created</p>
-          <h2 style="font-weight:bold;"><span class="kf-count" data-count-to="<?= isset($value_created['y1']) && is_numeric($value_created['y1']) ? (float)$value_created['y1'] : 0; ?>"><?= $value_created['y1']; ?></span></h2>
+          <h2 style="font-weight:bold;"><span class="kf-count"><?= $value_created['y1']; ?></span></h2>
         </div>
         <div style="background:#fbc87a;color:#000;">
           <p>Value Created</p>
-          <h2 style="font-weight:bold;"><span class="kf-count" data-count-to="<?= isset($value_created['y2']) && is_numeric($value_created['y2']) ? (float)$value_created['y2'] : 0; ?>"><?= $value_created['y2']; ?></span></h2>
+          <h2 style="font-weight:bold;"><span class="kf-count"><?= $value_created['y2']; ?></span></h2>
         </div>
       </div>
     </div>
@@ -90,26 +90,44 @@ $value_created = get_field('value_created');
   }
 
   let animated = false;
+
+  const parseCountSpec = (text, attrVal) => {
+    // Prefer numeric data-count-to if provided and valid
+    if (attrVal !== null && attrVal !== undefined && attrVal !== '' && !isNaN(parseFloat(attrVal))) {
+      const n = parseFloat(attrVal);
+      return { prefix: '', target: n, suffix: '', decimals: Number.isInteger(n) ? 0 : 2 };
+    }
+    const raw = (text || '').toString().trim();
+    // Matches optional currency symbol, number (with optional decimals), optional K/M/B suffix
+    const m = raw.match(/^([\$€£])?\s*([0-9]{1,3}(?:,[0-9]{3})*|[0-9]+)(?:\.([0-9]+))?\s*([KMB])?$/i);
+    if (!m) return null;
+    const prefix = m[1] || '';
+    const intPart = (m[2] || '').replace(/,/g, '');
+    const decPart = m[3] || '';
+    const suffix = (m[4] || '').toUpperCase();
+    const hasDecimal = decPart.length > 0;
+    const num = parseFloat(intPart + (hasDecimal ? '.' + decPart : '')) || 0;
+    return { prefix, target: num, suffix, decimals: hasDecimal ? decPart.length : 0 };
+  };
+
   const animateCounts = (root) => {
     const els = root.querySelectorAll('.kf-count');
     els.forEach(el => {
       if (el.dataset.animated) return;
-      const target = parseFloat(el.getAttribute('data-count-to'));
-      if (isNaN(target)) { // non-numeric: do nothing, just mark as shown
-        el.dataset.animated = '1';
-        return;
-      }
+      const attrVal = el.getAttribute('data-count-to');
+      const spec = parseCountSpec(el.textContent, attrVal);
+      if (!spec) { el.dataset.animated = '1'; return; }
+      const { prefix, target, suffix, decimals } = spec;
       const startTime = performance.now();
       const duration = 1200; // ms
-      const decimals = Number.isInteger(target) ? 0 : 2;
       const startVal = 0;
       const step = (now) => {
         const p = Math.min(1, (now - startTime) / duration);
         const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
         const curr = startVal + (target - startVal) * eased;
-        el.textContent = curr.toFixed(decimals);
+        el.textContent = `${prefix}${curr.toFixed(decimals)}${suffix}`;
         if (p < 1) requestAnimationFrame(step);
-        else { el.textContent = target.toFixed(decimals); el.dataset.animated = '1'; }
+        else { el.textContent = `${prefix}${target.toFixed(decimals)}${suffix}`; el.dataset.animated = '1'; }
       };
       requestAnimationFrame(step);
     });
