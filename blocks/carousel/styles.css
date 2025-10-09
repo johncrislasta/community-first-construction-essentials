@@ -4,4 +4,15 @@
         height: 100%;
         object-fit: cover;
     }
+
+    .cfce-carousel__prev, .cfce-carousel__next {
+        color: var(--color-primary);
+        background-color: rgba(0,0,0,0.5);
+        border: none;
+    }
+
+    .swiper-pagination-bullet-active {
+        background-color: var(--color-primary);
+    }
+
 }
