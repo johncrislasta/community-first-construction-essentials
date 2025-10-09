@@ -87,7 +87,7 @@ $interval = $max / 6;
     <div class="chart" style="display:grid;grid-template-columns: auto repeat(6, 1fr);grid-template-rows: 50px repeat(2, 85px) 100px 85px;width:100%;row-gap:4px;">
       <div class="chart-legend" style="grid-column-start:1;grid-column-end:8;display:flex;">
         <div>
-          <span class="legend-circle" style="background: #f90"></span>
+          <span class="legend-circle" style="background: var(--color-primary)"></span>
           <?php echo $year1 ?>
         </div>
         <div>
@@ -109,7 +109,7 @@ $interval = $max / 6;
         $w2 = $max > 0 ? ($val2 / $max) * 100 : 0;
       ?>
       <div style="display:flex; align-items:center; gap:0.5rem; grid-column-start:2;grid-column-end:8;grid-row-start:2;grid-row-end:3;">
-        <div class="kf-bar kf-bar-y1" data-target-width="<?= round($w1, 2); ?>" style="background-color:#f90; width:0%; height:85px; border-radius:5px; transition:width 900ms ease;display:flex;align-items:center;justify-content:end;">
+        <div class="kf-bar kf-bar-y1" data-target-width="<?= round($w1, 2); ?>" style="background-color:var(--color-primary); width:0%; height:85px; border-radius:5px; transition:width 900ms ease;display:flex;align-items:center;justify-content:end;">
           <strong style="display:inline-block;padding-right:20px"><span class="kf-count" data-count-to="<?= $val1; ?>"><?= $val1; ?></span></strong>
         </div>
       </div>
@@ -127,7 +127,7 @@ $interval = $max / 6;
         $w2 = $max > 0 ? ($val2 / $max) * 100 : 0;
       ?>
       <div style="display:flex; align-items:end; gap:0.5rem; grid-column-start:2;grid-column-end:8;grid-row-start:4;grid-row-end:5;">
-        <div class="kf-bar kf-bar-y1" data-target-width="<?= round($w1, 2); ?>" style="background-color:#f90; width:0%; height:85px; border-radius:5px; transition:width 900ms ease;display:flex;align-items:center;justify-content:end;">
+        <div class="kf-bar kf-bar-y1" data-target-width="<?= round($w1, 2); ?>" style="background-color:var(--color-primary); width:0%; height:85px; border-radius:5px; transition:width 900ms ease;display:flex;align-items:center;justify-content:end;">
           <strong style="display:inline-block;padding-right:20px"><span class="kf-count" data-count-to="<?= $val1; ?>"><?= $val1; ?></span></strong>
         </div>
       </div>
@@ -141,7 +141,7 @@ $interval = $max / 6;
       <h3 style="text-align:center; margin-bottom:1rem;">CFC Progress YTD</h3>
       <div style="display:grid; grid-template-columns:1fr; text-align:center;">
         <h4><?= $year1; ?></h4>
-        <div style="background:#f90;color:#000;">
+        <div style="background:var(--color-primary);color:#000;">
           <p>Completed Projects</p>
           <h2 style="font-weight:bold;"><span class="kf-count" data-count-to="<?= isset($completed_projects['y1']) ? (float)$completed_projects['y1'] : 0; ?>"><?= $completed_projects['y1']; ?></span></h2>
         </div>
