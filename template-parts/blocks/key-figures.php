@@ -17,7 +17,6 @@ $value_created = get_field('value_created');
       <?php
 
       $bars = [
-	      'Homes Sourced' => $homes_sourced,
 	      'Home Renos' => $home_renos,
 	      'Home Sets' => $home_sets,
       ];
@@ -40,11 +39,11 @@ $value_created = get_field('value_created');
             $w2 = $max > 0 ? ($val2 / $max) * 100 : 0;
           ?>
            <div style="display:flex; align-items:center; gap:0.5rem;">
-             <div class="kf-bar kf-bar-y1" data-target-width="<?= round($w1, 2); ?>" style="background-color:#f90; width:0%; height:40px; border-radius:5px; transition:width 900ms ease;"></div>
+             <div class="kf-bar kf-bar-y1" data-target-width="<?= round($w1, 2); ?>" style="background-color:#f90; width:0%; height:60px; border-radius:5px; transition:width 900ms ease;"></div>
              <small><span class="kf-count" data-count-to="<?= $val1; ?>"><?= $val1; ?></span></small>
            </div>
            <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.25rem;">
-             <div class="kf-bar kf-bar-y2" data-target-width="<?= round($w2, 2); ?>" style="background-color:#fbc87a; width:0%; height:40px; border-radius:5px; transition:width 900ms ease;"></div>
+             <div class="kf-bar kf-bar-y2" data-target-width="<?= round($w2, 2); ?>" style="background-color:#fbc87a; width:0%; height:60px; border-radius:5px; transition:width 900ms ease;"></div>
              <small><span class="kf-count" data-count-to="<?= $val2; ?>"><?= $val2; ?></span></small>
            </div>
          </div>
@@ -53,24 +52,16 @@ $value_created = get_field('value_created');
     </div>
     <div class="stats" style="flex:1 1 35%;">
       <h3 style="text-align:center; margin-bottom:1rem;">CFC Progress YTD</h3>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; text-align:center;">
+      <div style="display:grid; grid-template-columns:1fr; gap:1rem; text-align:center;">
         <h4><?= $year1; ?></h4>
-        <h4><?= $year2; ?></h4>
         <div style="background:#f90;color:#000;">
           <p>Completed Projects</p>
           <h2 style="font-weight:bold;"><span class="kf-count" data-count-to="<?= isset($completed_projects['y1']) ? (float)$completed_projects['y1'] : 0; ?>"><?= $completed_projects['y1']; ?></span></h2>
         </div>
+        <h4><?= $year2; ?></h4>
         <div style="background:#fbc87a;color:#000;">
           <p>Completed Projects</p>
           <h2 style="font-weight:bold;"><span class="kf-count" data-count-to="<?= isset($completed_projects['y2']) ? (float)$completed_projects['y2'] : 0; ?>"><?= $completed_projects['y2']; ?></span></h2>
-        </div>
-        <div style="background:#f90;color:#000;">
-          <p>Value Created</p>
-          <h2 style="font-weight:bold;"><span class="kf-count"><?= $value_created['y1']; ?></span></h2>
-        </div>
-        <div style="background:#fbc87a;color:#000;">
-          <p>Value Created</p>
-          <h2 style="font-weight:bold;"><span class="kf-count"><?= $value_created['y2']; ?></span></h2>
         </div>
       </div>
     </div>
