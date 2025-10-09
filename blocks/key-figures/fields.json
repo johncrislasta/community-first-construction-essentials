@@ -1,0 +1,64 @@
+{
+    "key": "group_key_figures",
+    "title": "Key Figures",
+    "fields": [
+      {
+        "key": "field_year_1",
+        "label": "First Year",
+        "name": "year_1",
+        "type": "text",
+        "default_value": "2024"
+      },
+      {
+        "key": "field_year_2",
+        "label": "Second Year",
+        "name": "year_2",
+        "type": "text",
+        "default_value": "2025"
+      },
+      {
+        "key": "field_home_renos",
+        "label": "Home Renos",
+        "name": "home_renos",
+        "type": "group",
+        "sub_fields": [
+          {"key": "field_home_renos_y1","label": "Year 1","name": "y1","type": "number","default_value":102},
+          {"key": "field_home_renos_y2","label": "Year 2","name": "y2","type": "number","default_value":99}
+        ]
+      },
+      {
+        "key": "field_home_sets",
+        "label": "Home Sets",
+        "name": "home_sets",
+        "type": "group",
+        "sub_fields": [
+          {"key": "field_home_sets_y1","label": "Year 1","name": "y1","type": "number","default_value":119},
+          {"key": "field_home_sets_y2","label": "Year 2","name": "y2","type": "number","default_value":78}
+        ]
+      },
+      {
+        "key": "field_completed_projects",
+        "label": "Completed Projects",
+        "name": "completed_projects",
+        "type": "group",
+        "sub_fields": [
+          {"key": "field_completed_projects_y1","label": "Year 1","name": "y1","type": "number","default_value":354},
+          {"key": "field_completed_projects_y2","label": "Year 2","name": "y2","type": "number","default_value":191}
+        ]
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "block",
+          "operator": "==",
+          "value": "acf/key-figures"
+        }
+      ]
+    ],
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label"
+  }
+  

@@ -1,0 +1,114 @@
+{
+  "key": "group_cfce_carousel",
+  "title": "Carousel",
+  "fields": [
+    {
+      "key": "field_cfce_carousel_slides",
+      "label": "Slides",
+      "name": "slides",
+      "type": "repeater",
+      "layout": "row",
+      "button_label": "Add Slide",
+      "min": 1,
+      "sub_fields": [
+        {
+          "key": "field_cfce_carousel_slide_image",
+          "label": "Image",
+          "name": "image",
+          "type": "image",
+          "return_format": "array",
+          "preview_size": "medium",
+          "library": "all",
+          "required": 1
+        },
+        {
+          "key": "field_cfce_carousel_slide_caption",
+          "label": "Caption",
+          "name": "caption",
+          "type": "text"
+        },
+        {
+          "key": "field_cfce_carousel_slide_link",
+          "label": "Link",
+          "name": "link",
+          "type": "link",
+          "return_format": "array"
+        }
+      ]
+    },
+    {
+      "key": "field_cfce_carousel_autoplay",
+      "label": "Autoplay",
+      "name": "autoplay",
+      "type": "true_false",
+      "ui": 1,
+      "default_value": 1
+    },
+    {
+      "key": "field_cfce_carousel_delay",
+      "label": "Autoplay Delay (ms)",
+      "name": "delay",
+      "type": "number",
+      "default_value": 5000,
+      "min": 1000,
+      "step": 100,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_cfce_carousel_autoplay",
+            "operator": "==",
+            "value": 1
+          }
+        ]
+      ]
+    },
+    {
+      "key": "field_cfce_carousel_pagination",
+      "label": "Show Pagination",
+      "name": "pagination",
+      "type": "true_false",
+      "ui": 1,
+      "default_value": 1
+    },
+    {
+      "key": "field_cfce_carousel_navigation",
+      "label": "Show Navigation Arrows",
+      "name": "navigation",
+      "type": "true_false",
+      "ui": 1,
+      "default_value": 1
+    },
+    {
+      "key": "field_cfce_carousel_loop",
+      "label": "Loop Slides",
+      "name": "loop",
+      "type": "true_false",
+      "ui": 1,
+      "default_value": 1
+    },
+    {
+      "key": "field_cfce_carousel_height",
+      "label": "Slide Height (px)",
+      "name": "height",
+      "type": "number",
+      "default_value": 480,
+      "min": 100,
+      "step": 10
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/carousel"
+      }
+    ]
+  ],
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "show_in_rest": 0
+}

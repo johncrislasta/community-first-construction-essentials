@@ -35,8 +35,9 @@ class Community_First_Construction_Essentials {
         // Register Gutenberg editor color palette (override theme palette if needed).
         add_action( 'after_setup_theme', [ $this, 'register_editor_palette' ], 11 );
 
-        // Register ACF blocks when ACF initializes.
-        add_action( 'acf/init', [ $this, 'register_acf_blocks' ] );
+        // Register ACF field groups from JSON, then register ACF blocks when ACF initializes.
+        add_action( 'acf/init', [ $this, 'register_acf_field_groups_from_json' ], 5 );
+        add_action( 'acf/init', [ $this, 'register_acf_blocks' ], 10 );
     }
 
     /**
@@ -53,7 +54,23 @@ class Community_First_Construction_Essentials {
      */
     public function enqueue_public_assets() {
         wp_enqueue_style( 'cfce-public', CFCE_PLUGIN_URL . 'public/css/public.css', [], CFCE_VERSION );
-        // wp_enqueue_script( 'cfce-public', CFCE_PLUGIN_URL . 'public/js/public.js', [ 'wp-element' ], CFCE_VERSION, true );
+
+        // Conditionally load Swiper + carousel init only if the Carousel block exists on the current page
+        if ( $this->should_enqueue_carousel_assets() ) {
+            wp_enqueue_style( 'swiper', 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css', [], '12.0.2' );
+            wp_enqueue_script( 'swiper', 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js', [], '12.0.2', true );
+
+            // Carousel init script
+            wp_enqueue_script(
+                'cfce-carousel',
+                CFCE_PLUGIN_URL . 'blocks/carousel/scripts.js',
+                [ 'swiper' ],
+                CFCE_VERSION,
+                true
+            );
+
+            wp_enqueue_style( 'cfce-carousel', CFCE_PLUGIN_URL . 'blocks/carousel/styles.css', [], CFCE_VERSION );
+        }
     }
 
     /**
@@ -81,6 +98,56 @@ class Community_First_Construction_Essentials {
         wp_enqueue_style( 'cfce-editor', CFCE_PLUGIN_URL . 'public/css/public.css', [ 'wp-edit-blocks' ], CFCE_VERSION );
         // Editor-only tweaks (does not load on frontend)
         wp_enqueue_style( 'cfce-editor-only', CFCE_PLUGIN_URL . 'public/css/editor.css', [ 'cfce-editor' ], CFCE_VERSION );
+
+        // Conditionally enqueue Swiper + init in editor if editing a post that has the carousel block
+        if ( $this->should_enqueue_carousel_assets( true ) ) {
+            wp_enqueue_style( 'swiper', 'https://unpkg.com/swiper@9/swiper-bundle.min.css', [], '9.0.0' );
+            wp_enqueue_script( 'swiper', 'https://unpkg.com/swiper@9/swiper-bundle.min.js', [], '9.0.0', true );
+
+            wp_enqueue_script(
+                'cfce-carousel',
+                CFCE_PLUGIN_URL . 'blocks/carousel/scripts.js',
+                [ 'swiper' ],
+                CFCE_VERSION,
+                true
+            );
+        }
+    }
+
+    /**
+     * Determine if we should enqueue carousel assets.
+     * Frontend: true when viewing a singular post that contains the acf/carousel block.
+     * Editor: attempts to check current post content; falls back to true in block editor preview iframe.
+     *
+     * @param bool $in_admin Whether this is called from editor assets hook.
+     * @return bool
+     */
+    protected function should_enqueue_carousel_assets( $in_admin = false ) {
+        // In REST block preview iframe, there might be no global post; allow enqueue to avoid missing assets
+        if ( $in_admin ) {
+            // Try to detect current post id from request
+            $post_id = 0;
+            if ( isset( $_GET['post'] ) ) {
+                $post_id = (int) $_GET['post'];
+            } elseif ( isset( $_POST['post_ID'] ) ) {
+                $post_id = (int) $_POST['post_ID'];
+            }
+            if ( $post_id && function_exists( 'has_block' ) ) {
+                return has_block( 'acf/carousel', $post_id );
+            }
+            // Fallback true to ensure editor previews work even when detection fails
+            return true;
+        }
+
+        if ( ! function_exists( 'has_block' ) ) {
+            return false;
+        }
+
+        if ( is_singular() ) {
+            return has_block( 'acf/carousel', get_queried_object_id() );
+        }
+
+        return false;
     }
 
     /**
@@ -155,6 +222,66 @@ class Community_First_Construction_Essentials {
             'mode'              => 'edit',
             'supports'          => array('align' => true),
         ));
+
+        // Carousel block
+        acf_register_block_type( [
+            'name'            => 'carousel',
+            'title'           => __( 'Carousel', 'community-first-construction-essentials' ),
+            'description'     => __( 'Image carousel with configurable options (autoplay, delay, pagination, navigation, loop).', 'community-first-construction-essentials' ),
+            'render_template' => rtrim( CFCE_PLUGIN_DIR, '/' ) . '/template-parts/blocks/carousel.php',
+            'category'        => 'widgets',
+            'icon'            => 'images-alt2',
+            'keywords'        => [ 'carousel', 'slider', 'gallery' ],
+            'mode'            => 'preview',
+            'supports'        => [ 'align' => true ],
+        ] );
+
+    }
+
+    /**
+     * Load ACF Local Field Groups from JSON files in plugin blocks directory.
+     * Looks for files at: CFCE_PLUGIN_DIR . 'blocks/<block-name>/fields.json'.
+     * Each JSON may be a single group object or an array of group objects.
+     */
+    public function register_acf_field_groups_from_json() {
+        if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+            return;
+        }
+
+        $blocks_dir = rtrim( CFCE_PLUGIN_DIR, '/' ) . '/blocks';
+        if ( ! is_dir( $blocks_dir ) ) {
+            return;
+        }
+
+        $directories = glob( $blocks_dir . '/*', GLOB_ONLYDIR );
+        if ( ! $directories ) {
+            return;
+        }
+
+        foreach ( $directories as $dir ) {
+            $json_path = $dir . '/fields.json';
+            if ( ! file_exists( $json_path ) ) {
+                continue;
+            }
+
+            $raw = file_get_contents( $json_path );
+            if ( false === $raw ) {
+                continue;
+            }
+
+            $data = json_decode( $raw, true );
+            if ( json_last_error() !== JSON_ERROR_NONE ) {
+                continue;
+            }
+
+            // Allow a single object or an array of groups
+            $groups = isset( $data[0] ) ? $data : [ $data ];
+            foreach ( $groups as $group ) {
+                if ( is_array( $group ) && isset( $group['key'] ) && isset( $group['fields'] ) ) {
+                    acf_add_local_field_group( $group );
+                }
+            }
+        }
     }
 
     /**
