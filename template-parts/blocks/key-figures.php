@@ -8,51 +8,138 @@ $home_sets = get_field('home_sets');
 
 $completed_projects = get_field('completed_projects');
 $value_created = get_field('value_created');
+
+$bars = [
+  'Home Renos' => $home_renos,
+  'Home Sets' => $home_sets,
+];
+
+// Find maximum value across all bars/years for proportional scaling
+$max = 0;
+foreach ($bars as $vals) {
+  $v1 = isset($vals['y1']) ? (float)$vals['y1'] : 0;
+  $v2 = isset($vals['y2']) ? (float)$vals['y2'] : 0;
+  if ($v1 > $max) { $max = $v1; }
+  if ($v2 > $max) { $max = $v2; }
+}
+
+// Round of max value to the tens
+$max = ceil($max / 10) * 10;
+$interval = $max / 6;
 ?>
+<style>
+  .chart-plot-area {
+    position: relative;
 
-<section id="key-figures" class="key-figures-block" style="background-color:#222; color:#fff; padding:2rem;">
-  <div class="chart-container" style="display:flex; flex-wrap:wrap; gap:2rem;">
-    <div class="chart" style="flex:1 1 60%;">
-      <p><strong>Legend:</strong> <span style="color:#f90;">● <?= $year1; ?></span> <span style="color:#fbc87a;">● <?= $year2; ?></span></p>
-      <?php
-
-      $bars = [
-	      'Home Renos' => $home_renos,
-	      'Home Sets' => $home_sets,
-      ];
-
-      // Find maximum value across all bars/years for proportional scaling
-      $max = 0;
-      foreach ($bars as $vals) {
-        $v1 = isset($vals['y1']) ? (float)$vals['y1'] : 0;
-        $v2 = isset($vals['y2']) ? (float)$vals['y2'] : 0;
-        if ($v1 > $max) { $max = $v1; }
-        if ($v2 > $max) { $max = $v2; }
+    &:before {
+      content: "0";
+      position: absolute;
+      bottom: -1.5em;
+      left: 0;
+      font-size: 0.7em;
+      transform: translateX(-50%);
+    }
+    > div {
+      position: relative;
+      &:before {
+        content: attr(data-plot-line-label);
+        position: absolute;
+        bottom: -1.5em;
+        right: 0;
+        font-size: 0.7em;
+        transform: translateX(50%);
       }
-       foreach ($bars as $label => $values): ?>
-         <div style="margin-bottom:1rem;">
-           <div style="margin-bottom:0.25rem;"><?= $label; ?></div>
-          <?php
-            $val1 = isset($values['y1']) ? (float)$values['y1'] : 0;
-            $val2 = isset($values['y2']) ? (float)$values['y2'] : 0;
-            $w1 = $max > 0 ? ($val1 / $max) * 100 : 0;
-            $w2 = $max > 0 ? ($val2 / $max) * 100 : 0;
-          ?>
-           <div style="display:flex; align-items:center; gap:0.5rem;">
-             <div class="kf-bar kf-bar-y1" data-target-width="<?= round($w1, 2); ?>" style="background-color:#f90; width:0%; height:60px; border-radius:5px; transition:width 900ms ease;"></div>
-             <small><span class="kf-count" data-count-to="<?= $val1; ?>"><?= $val1; ?></span></small>
-           </div>
-           <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.25rem;">
-             <div class="kf-bar kf-bar-y2" data-target-width="<?= round($w2, 2); ?>" style="background-color:#fbc87a; width:0%; height:60px; border-radius:5px; transition:width 900ms ease;"></div>
-             <small><span class="kf-count" data-count-to="<?= $val2; ?>"><?= $val2; ?></span></small>
-           </div>
-         </div>
-       <?php endforeach; ?>
+    }
+  }
 
+  .kf-bar {
+    position: relative;
+  }
+
+  .kf-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    padding-right: 12px;
+  }
+
+  .chart-legend {
+    justify-content: center;
+    gap: 30px;
+    > div {
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .legend-circle {
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        border-radius: 16px;
+      }
+    }
+  }
+</style>
+<section id="key-figures" class="key-figures-block" style="background-color:#222; color:#fff; padding:2rem;">
+  <div class="chart-container" style="display:flex; gap:2rem;">
+    <div class="chart" style="display:grid;grid-template-columns: auto repeat(6, 1fr);grid-template-rows: 50px repeat(2, 85px) 100px 85px;width:100%;row-gap:4px;">
+      <div class="chart-legend" style="grid-column-start:1;grid-column-end:8;display:flex;">
+        <div>
+          <span class="legend-circle" style="background: #f90"></span>
+          <?php echo $year1 ?>
+        </div>
+        <div>
+          <span class="legend-circle" style="background: #fbc87a"></span>
+          <?php echo $year2 ?>
+        </div>
+      </div>
+      <div class="chart-plot-area" style="border-left: 1px solid #34362f;grid-column-start:2;grid-column-end:8;grid-row-start:2;grid-row-end:6;display:flex;">
+        <?php for($i=1; $i<=6; $i++) { ?>
+        <div style="border-right: 1px solid #34362f; width: 100%;" data-plot-line-label="<?= $interval * $i; ?>"></div>
+        <?php } ?>
+      </div>
+
+      <div class="kf-label" style="grid-column-start:1;grid-column-end:2;grid-row-start:2;grid-row-end:4;">Home Renos</div>
+      <?php
+        $val1 = isset($home_renos['y1']) ? (float)$home_renos['y1'] : 0;
+        $val2 = isset($home_renos['y2']) ? (float)$home_renos['y2'] : 0;
+        $w1 = $max > 0 ? ($val1 / $max) * 100 : 0;
+        $w2 = $max > 0 ? ($val2 / $max) * 100 : 0;
+      ?>
+      <div style="display:flex; align-items:center; gap:0.5rem; grid-column-start:2;grid-column-end:8;grid-row-start:2;grid-row-end:3;">
+        <div class="kf-bar kf-bar-y1" data-target-width="<?= round($w1, 2); ?>" style="background-color:#f90; width:0%; height:85px; border-radius:5px; transition:width 900ms ease;display:flex;align-items:center;justify-content:end;">
+          <strong style="display:inline-block;padding-right:20px"><span class="kf-count" data-count-to="<?= $val1; ?>"><?= $val1; ?></span></strong>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.25rem; grid-column-start:2;grid-column-end:8;grid-row-start:3;grid-row-end:4;">
+        <div class="kf-bar kf-bar-y2" data-target-width="<?= round($w2, 2); ?>" style="background-color:#fbc87a; width:0%; height:85px; border-radius:5px; transition:width 900ms ease;display:flex;align-items:center;justify-content:end;">
+          <strong style="display:inline-block;padding-right:20px"><span class="kf-count" data-count-to="<?= $val2; ?>"><?= $val2; ?></span></strong>
+        </div>
+      </div>
+
+      <div class="kf-label" style="grid-column-start:1;grid-column-end:2;grid-row-start:4;grid-row-end:6;display: flex;">Home Sets</div>
+      <?php
+        $val1 = isset($home_sets['y1']) ? (float)$home_sets['y1'] : 0;
+        $val2 = isset($home_sets['y2']) ? (float)$home_sets['y2'] : 0;
+        $w1 = $max > 0 ? ($val1 / $max) * 100 : 0;
+        $w2 = $max > 0 ? ($val2 / $max) * 100 : 0;
+      ?>
+      <div style="display:flex; align-items:end; gap:0.5rem; grid-column-start:2;grid-column-end:8;grid-row-start:4;grid-row-end:5;">
+        <div class="kf-bar kf-bar-y1" data-target-width="<?= round($w1, 2); ?>" style="background-color:#f90; width:0%; height:85px; border-radius:5px; transition:width 900ms ease;display:flex;align-items:center;justify-content:end;">
+          <strong style="display:inline-block;padding-right:20px"><span class="kf-count" data-count-to="<?= $val1; ?>"><?= $val1; ?></span></strong>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.25rem; grid-column-start:2;grid-column-end:8;grid-row-start:5;grid-row-end:6;">
+        <div class="kf-bar kf-bar-y2" data-target-width="<?= round($w2, 2); ?>" style="background-color:#fbc87a; width:0%; height:85px; border-radius:5px; transition:width 900ms ease;display:flex;align-items:center;justify-content:end;">
+          <strong style="display:inline-block;padding-right:20px"><span class="kf-count" data-count-to="<?= $val2; ?>"><?= $val2; ?></span></strong>
+        </div>
+      </div>
     </div>
-    <div class="stats" style="flex:1 1 35%;">
+    <div class="stats" style="flex:1 1 300px;">
       <h3 style="text-align:center; margin-bottom:1rem;">CFC Progress YTD</h3>
-      <div style="display:grid; grid-template-columns:1fr; gap:1rem; text-align:center;">
+      <div style="display:grid; grid-template-columns:1fr; text-align:center;">
         <h4><?= $year1; ?></h4>
         <div style="background:#f90;color:#000;">
           <p>Completed Projects</p>
