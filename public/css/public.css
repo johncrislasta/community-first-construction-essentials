@@ -59,6 +59,10 @@ body {
 	letter-spacing: 4px;
 }
 
+.has-height-100 {
+	height: 100%;
+}
+
 /* Spacing */
 
 .has-padding-block-4 {
