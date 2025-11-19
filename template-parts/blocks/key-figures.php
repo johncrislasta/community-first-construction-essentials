@@ -83,6 +83,16 @@ $interval = $max / 6;
         border-radius: 16px;
       }
     }
+
+    .chart-container {
+      flex-direction: column;
+    }
+
+    @media and screen (min-width: 982px) {
+      .chart-container {
+        flex-direction: row;
+      }
+    }
   }
 </style>
 <section id="key-figures" class="key-figures-block" style="background-color:#222; color:#fff; padding:2rem;">

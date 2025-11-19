@@ -3,7 +3,7 @@
  * Plugin Name:       Community First Construction Essentials
  * Plugin URI:        https://communityfirstconstruction.com/plugins/community-first-construction-essentials
  * Description:       Custom Gutenberg blocks and essential functions for Community First Construction website.
- * Version:           1.0.4.4
+ * Version:           1.0.5.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Community First Construction
@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // Define plugin constants
-define( 'CFCE_VERSION', '1.0.4.4' );
+define( 'CFCE_VERSION', '1.0.5.0' );
 define( 'CFCE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CFCE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
