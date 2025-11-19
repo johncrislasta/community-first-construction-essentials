@@ -83,15 +83,15 @@ $interval = $max / 6;
         border-radius: 16px;
       }
     }
+  }
 
+  .chart-container {
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 982px) {
     .chart-container {
-      flex-direction: column;
-    }
-
-    @media and screen (min-width: 982px) {
-      .chart-container {
-        flex-direction: row;
-      }
+      flex-direction: row;
     }
   }
 </style>
