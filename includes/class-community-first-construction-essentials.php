@@ -101,8 +101,8 @@ class Community_First_Construction_Essentials {
 
         // Conditionally enqueue Swiper + init in editor if editing a post that has the carousel block
         if ( $this->should_enqueue_carousel_assets( true ) ) {
-            wp_enqueue_style( 'swiper', 'https://unpkg.com/swiper@9/swiper-bundle.min.css', [], '9.0.0' );
-            wp_enqueue_script( 'swiper', 'https://unpkg.com/swiper@9/swiper-bundle.min.js', [], '9.0.0', true );
+            wp_enqueue_style( 'swiper', 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css', [], '12.0.2' );
+            wp_enqueue_script( 'swiper', 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js', [], '12.0.2', true );
 
             wp_enqueue_script(
                 'cfce-carousel',
