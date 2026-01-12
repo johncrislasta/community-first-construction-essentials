@@ -23,11 +23,11 @@ class Community_First_Construction_Essentials {
         // Frontend assets placeholder.
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_public_assets' ], 100000 );
 
+        // Add Google Analytics tracking code to head
+        add_action( 'wp_head', [ $this, 'add_google_analytics_tracking' ], 1 );
+
         // Admin assets placeholder.
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
-
-        // Add Google Analytics tracking code right after opening body tag
-        add_action('wp_body_open', [$this, 'add_google_analytics_tracking'], 1);
 
         // Register Gutenberg blocks bootstrap (to be implemented).
         add_action( 'init', [ $this, 'register_blocks' ] );
@@ -83,6 +83,26 @@ class Community_First_Construction_Essentials {
         // Example placeholder. Add actual assets when needed.
         // wp_enqueue_style( 'cfce-admin', CFCE_PLUGIN_URL . 'admin/css/admin.css', [], CFCE_VERSION );
         // wp_enqueue_script( 'cfce-admin', CFCE_PLUGIN_URL . 'admin/js/admin.js', [ 'wp-element' ], CFCE_VERSION, true );
+    }
+
+    /**
+     * Add Google Analytics tracking code to the site head
+     */
+    public function add_google_analytics_tracking() {
+        // Only add tracking code on the frontend
+        if ( is_admin() ) {
+            return;
+        }
+        ?>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXPY9HG23V"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-EXPY9HG23V');
+        </script>
+        <?php
     }
 
     /**
@@ -213,7 +233,7 @@ class Community_First_Construction_Essentials {
             ],
         ] );
 
-        
+
         acf_register_block_type(array(
             'name'              => 'key-figures',
             'title'             => __('Key Figures'),
@@ -312,25 +332,5 @@ class Community_First_Construction_Essentials {
             echo 'Create: <code>' . esc_html( str_replace( ABSPATH, '', $template ) ) . '</code>.';
             echo '</div>';
         }
-    }
-
-    /**
-     * Add Google Analytics tracking code to the site head
-     */
-    public function add_google_analytics_tracking() {
-        // Only add tracking code on the frontend
-        if ( is_admin() ) {
-            return;
-        }
-        ?>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXPY9HG23V"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-EXPY9HG23V');
-        </script>
-        <?php
     }
 }
