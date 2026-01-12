@@ -26,8 +26,8 @@ class Community_First_Construction_Essentials {
         // Admin assets placeholder.
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
 
-        // Add Google Analytics tracking code to head
-        add_action( 'wp_head', [ $this, 'add_google_analytics_tracking' ], 10 );
+        // Add Google Analytics tracking code right after opening body tag
+        add_action('wp_body_open', [$this, 'add_google_analytics_tracking'], 1);
 
         // Register Gutenberg blocks bootstrap (to be implemented).
         add_action( 'init', [ $this, 'register_blocks' ] );
